@@ -2,6 +2,7 @@ package com.learn.mynavigationdrawer
 
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -31,14 +32,22 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
+        //menambahkan aksi pada snack bar
         binding.appBarMain.fab.setOnClickListener { view ->
+        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            .setAction("Click Me") { Toast.makeText(this@MainActivity, "Halo ini action dari snackbar", Toast.LENGTH_SHORT).show()}
+            .show()
+        }
+        //backup
+        /*binding.appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-        }
+        }*/
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        //ini unutk penggunaan poto yang menggunakan url, dan juga penggunaan ini harus di daftarain di manifest
         profileCircleImageView = navView.getHeaderView(0).findViewById(R.id.imageView)
-        Glide.with(this)
+        Glide.with(this@MainActivity)
             .load(profileImageUrl)
             .into(profileCircleImageView)
 
@@ -60,6 +69,8 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    //fungsi di bawah berguna untuk : ketika tombol back ditekan. Misalnya ketika Anda di halaman CartFragment, jika Anda tekan tombol back,
+    // maka aplikasi tidak langsung keluar, melainkan akan menuju ke startDestination yang ada di Navigation Graph, yaitu HomeFragment.
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
